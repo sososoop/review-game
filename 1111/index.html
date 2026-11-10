@@ -1,0 +1,708 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>기념일 탐험대 | 소소숲</title><meta name="description" content="기념일 뉴스 '11월 11일, 두 개의 이야기(빼빼로데이와 가래떡데이)' 읽기자료를 복습하는 학습게임"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#eaf4fb;color:#23384A}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap">
+<style>
+  /* 탐험 지도 → 정거장(6개) → 기념일 수첩. 늦가을 들판 한 가지 분위기로 고정 */
+  :root{
+    color-scheme:light;
+    --sky:#DDEEFA;
+    --sea:#EEF6FC;
+    --paper:#FFFFFF;
+    --ink:#23384A;
+    --sub:#5F7486;
+    --line:#CFE0EE;
+    --leaf:#3A86C8; --leaf-soft:#E3F0FA;
+    --coral:#E8782E; --coral-soft:#FDEADB;
+    --lemon:#F2B100; --lemon-soft:#FFF5CF;
+    --mint:#2FA06E;  --mint-soft:#DEF3E7;
+    --blue:#3C8DBB;  --blue-soft:#DEEFF7;
+    --grape:#8A6BC6; --grape-soft:#ECE6F8;
+    --nut:#A9743A;   --nut-soft:#F3E7D8;
+    --good:#2FA06E; --bad:#E0574B;
+    --display:'Jua','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    --body:'Gowun Dodum','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    background:linear-gradient(180deg,var(--sky) 0%,var(--sea) 55%,#F4F8FB 100%) fixed;
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:18px;line-height:1.6;
+    word-break:keep-all;overflow-wrap:break-word;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:18px 40px;}
+  button{font:inherit;color:inherit;cursor:pointer;border:none;background:none;}
+  button:focus-visible{outline:3px solid var(--leaf);outline-offset:3px;border-radius:14px;}
+  h1,h2,h3,.disp{font-family:var(--display);font-weight:400;letter-spacing:0.01em;text-wrap:balance;margin:0;}
+
+  .bar{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .bar .home{background:var(--paper);border:2px solid var(--line);border-radius:14px;padding:6px 14px;font-family:var(--display);font-size:18px;}
+  .bar .spacer{flex:1;}
+  .stars{font-family:var(--display);font-size:20px;background:var(--lemon-soft);border:2px solid #F2DA86;border-radius:999px;padding:4px 14px;font-variant-numeric:tabular-nums;}
+  .sound{background:var(--paper);border:2px solid var(--line);border-radius:14px;width:46px;height:46px;font-size:20px;}
+
+  /* 표지 */
+  .hero{background:var(--paper);border:3px solid var(--line);border-radius:28px;padding:22px 22px 18px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;}
+  .hero .kick{font-family:var(--display);color:var(--leaf);font-size:17px;}
+  .hero h1{font-size:clamp(30px,6.4vw,46px);line-height:1.15;}
+  .hero h1 span{color:var(--coral);}
+  .hero p{margin:6px 0 0;color:var(--sub);}
+  .hero-art{width:150px;height:130px;}
+
+  /* 탐험 지도 */
+  .trail{position:relative;margin-top:18px;display:grid;gap:14px;}
+  .trail::before{content:"";position:absolute;left:43px;top:30px;bottom:30px;width:8px;border-radius:8px;
+    background:repeating-linear-gradient(180deg,#BFD9EE 0 14px,transparent 14px 24px);}
+  .stop{position:relative;display:flex;align-items:center;gap:14px;text-align:left;background:var(--paper);border:3px solid var(--line);border-radius:22px;padding:12px 16px 12px 12px;transition:transform .15s,border-color .15s;width:100%;}
+  .stop:hover{transform:translateY(-2px);border-color:var(--c);}
+  .stop .num{flex:0 0 auto;width:66px;height:66px;border-radius:50%;background:var(--cs);border:3px solid var(--c);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:28px;color:var(--c);}
+  .stop.done .num{background:var(--c);color:#fff;}
+  .stop .txt{flex:1;min-width:0;}
+  .stop .t{font-family:var(--display);font-size:22px;}
+  .stop .d{color:var(--sub);font-size:16px;}
+  .stop .got{font-family:var(--display);font-size:17px;color:var(--sub);white-space:nowrap;}
+  .notebook-btn{margin-top:18px;width:100%;background:var(--ink);color:#fff;border-radius:20px;padding:16px;font-family:var(--display);font-size:22px;}
+
+  /* 게임 판 */
+  .board{background:var(--paper);border:3px solid var(--line);border-radius:28px;padding:20px 18px 22px;}
+  .stage-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .stage-head .tag{font-family:var(--display);color:#fff;background:var(--c);border-radius:12px;padding:2px 12px;font-size:17px;}
+  .stage-head h2{font-size:26px;}
+  .progress{display:flex;gap:6px;margin:10px 0 4px;}
+  .progress i{flex:1;height:10px;border-radius:10px;background:#E6EEF5;}
+  .progress i.on{background:var(--c);}
+  .ask{font-size:19px;margin:10px 0 14px;color:var(--sub);}
+  .ask b{color:var(--ink);}
+
+  /* 뜻→낱말 고르기 / 빈칸 채우기 공통 */
+  .means{background:var(--mint-soft);border:3px solid #B2E0C6;border-radius:18px;padding:14px 16px;font-size:20px;text-align:center;margin:6px 0 14px;line-height:1.5;}
+  .picklist{display:grid;gap:10px;}
+  .pickbtn{background:#FBFDFF;border:3px solid var(--line);border-radius:16px;padding:14px 16px;font-family:var(--display);font-size:23px;text-align:center;}
+  .pickbtn:hover{border-color:var(--c);}
+
+  /* 낱말 가족 힌트 */
+  .rootchip{display:inline-flex;align-items:center;gap:8px;background:var(--nut-soft);border:2px solid #E0C9A6;border-radius:999px;padding:4px 14px 4px 10px;font-family:var(--display);font-size:18px;color:#7A5222;margin:0 0 8px;}
+  .rootchip b{font-weight:400;background:var(--nut);color:#fff;border-radius:999px;padding:0 10px;}
+
+  /* 빈칸 문장 */
+  .sentence{font-family:var(--display);font-size:clamp(22px,5vw,30px);text-align:center;margin:8px 0 14px;line-height:1.5;}
+  .sentence .blank{display:inline-block;min-width:3.4em;border-bottom:4px solid var(--c);color:var(--c);}
+  .pieces{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;min-height:64px;}
+  .piece{background:var(--paper);border:3px solid #BFD9EE;border-radius:16px;padding:10px 18px;font-family:var(--display);font-size:22px;box-shadow:0 3px 0 #BFD9EE;}
+  .piece:active{transform:translateY(2px);box-shadow:none;}
+
+  /* 순서 맞추기 */
+  .slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:6px 0 16px;}
+  .slot{min-height:120px;border-radius:18px;border:3px dashed var(--c);background:var(--cs);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:8px 6px;text-align:center;}
+  .slot .lbl{font-family:var(--display);font-size:16px;color:var(--c);margin-bottom:4px;}
+  .slot .fill{font-family:var(--body);font-size:15px;line-height:1.35;min-height:1.3em;word-break:keep-all;}
+  .slot.filled{border-style:solid;background:var(--paper);}
+
+  /* 두 칸 선택 (사실/의견) */
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .duo button{border-radius:22px;padding:18px 10px;font-family:var(--display);font-size:26px;border:4px solid;}
+  .duo .fact{color:var(--blue);border-color:#BBDCEC;background:var(--blue-soft);}
+  .duo .opin{color:var(--grape);border-color:#D3C9F0;background:var(--grape-soft);}
+
+  /* O X */
+  .quiz{font-family:var(--display);font-size:clamp(21px,4.8vw,27px);text-align:center;background:var(--leaf-soft);border-radius:20px;padding:20px 14px;margin:6px 0 16px;line-height:1.45;}
+  .ox{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .ox button{border-radius:22px;padding:14px;font-family:var(--display);font-size:46px;border:4px solid;}
+  .ox .o{color:var(--mint);border-color:#B2E0C6;background:var(--mint-soft);}
+  .ox .x{color:var(--coral);border-color:#F6CDA8;background:var(--coral-soft);}
+
+  /* 피드백 */
+  .feedback{min-height:56px;margin-top:14px;border-radius:16px;padding:10px 14px;text-align:center;font-size:19px;}
+  .feedback.good{background:var(--mint-soft);color:#176B49;}
+  .feedback.bad{background:var(--coral-soft);color:#A8511C;}
+  .feedback b{font-family:var(--display);font-weight:400;font-size:22px;}
+  .next{display:block;margin:12px auto 0;background:var(--ink);color:#fff;border-radius:16px;padding:10px 30px;font-family:var(--display);font-size:21px;}
+  .is-right{border-color:var(--good)!important;background:var(--mint-soft)!important;}
+  .is-wrong{border-color:var(--bad)!important;}
+  .shake{animation:shake .35s;}
+  @keyframes shake{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+  .pop{animation:pop .4s;}
+  @keyframes pop{50%{transform:scale(1.06)}}
+
+  .clear{text-align:center;padding:10px 0;}
+  .clear .big{font-size:64px;line-height:1.1;}
+  .clear h2{font-size:30px;margin:6px 0;}
+  .clear p{color:var(--sub);margin:0 0 10px;}
+
+  /* 기념일 수첩 */
+  .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px;}
+  .mcard{background:var(--paper);border:3px solid var(--line);border-radius:22px;padding:12px;text-align:center;}
+  .mcard svg{width:84px;height:84px;}
+  .mcard .nm{font-family:var(--display);font-size:20px;}
+  .mcard .sm{font-size:15.5px;color:var(--sub);line-height:1.5;}
+  .mcard .sm b{color:var(--leaf);font-weight:400;font-family:var(--display);}
+  .mcard.locked{filter:grayscale(1);opacity:.45;}
+  .badge{margin-top:16px;background:linear-gradient(135deg,#E3F0FA,#DEF3E7 60%,#FFF5CF);border:3px solid #B5D6EE;border-radius:26px;padding:18px;text-align:center;}
+  .badge h3{font-size:26px;}
+  .badge .who{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;margin:10px 0;}
+  .badge input{font-family:var(--display);font-size:22px;text-align:center;border:3px solid #B5D6EE;border-radius:14px;padding:6px 10px;width:min(220px,100%);background:#fff;color:var(--ink);}
+  .cert-img{display:block;width:100%;max-width:440px;height:auto;margin:12px auto 0;border-radius:18px;box-shadow:0 6px 20px rgba(35,56,74,.15);background:#fff;}
+  .save-cert{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:var(--leaf);color:#fff;border-radius:16px;padding:10px 24px;font-family:var(--display);font-size:21px;box-shadow:0 3px 0 #23638F;}
+  .save-cert:active{transform:translateY(2px);box-shadow:none;}
+  .save-cert:disabled{opacity:.5;cursor:default;}
+  .cert-hint{font-size:15px;color:var(--sub);margin:8px 0 0;}
+  .reset{display:block;margin:18px auto 0;color:var(--sub);text-decoration:underline;font-size:15px;}
+
+  .confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:5;}
+  .confetti span{position:absolute;top:-40px;font-size:28px;animation:fall 1.8s ease-in forwards;}
+  @keyframes fall{to{transform:translateY(110vh) rotate(300deg);}}
+
+  @media (max-width:520px){
+    .hero{grid-template-columns:1fr;}
+    .hero-art{display:none;}
+    .slot .fill{font-size:13.5px;}
+    .slot{min-height:112px;}
+    .pickbtn{font-size:21px;}
+  }
+  .credit{text-align:center;font-family:var(--display);font-size:15px;color:var(--sub);letter-spacing:0.03em;padding-block:0 28px;margin-top:-18px;}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="b-choco" viewBox="0 0 100 100">
+      <g transform="rotate(-18 50 50)">
+        <rect x="42" y="56" width="16" height="34" rx="6" fill="#E3B26E" stroke="#A9743A" stroke-width="3"/>
+        <path d="M40 14 q0 -6 10 -6 q10 0 10 6 V60 q-3 6 -6 0 q-3 6 -6 0 q-3 6 -6 0 Z" fill="#6B3B22" stroke="#43230F" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M45 18 V48" stroke="#9A6346" stroke-width="3" stroke-linecap="round"/>
+      </g>
+    </symbol>
+    <symbol id="b-tteok" viewBox="0 0 100 100">
+      <g transform="rotate(14 50 50)">
+        <rect x="38" y="10" width="24" height="80" rx="11" fill="#FFFDF6" stroke="#9C9384" stroke-width="3"/>
+        <ellipse cx="50" cy="17" rx="10" ry="5" fill="#F1ECDD" stroke="#9C9384" stroke-width="2"/>
+        <path d="M44 28 V78" stroke="#E9E2D0" stroke-width="3" stroke-linecap="round"/>
+      </g>
+    </symbol>
+    <symbol id="b-rice" viewBox="0 0 100 100">
+      <path d="M50 92 V40 q0 -18 -14 -30" stroke="#5E8B3A" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <g fill="#F2B100" stroke="#B07E00" stroke-width="2">
+        <ellipse cx="40" cy="16" rx="5" ry="8" transform="rotate(-30 40 16)"/>
+        <ellipse cx="34" cy="28" rx="5" ry="8" transform="rotate(-60 34 28)"/>
+        <ellipse cx="50" cy="26" rx="5" ry="8" transform="rotate(20 50 26)"/>
+        <ellipse cx="40" cy="40" rx="5" ry="8" transform="rotate(-70 40 40)"/>
+        <ellipse cx="56" cy="40" rx="5" ry="8" transform="rotate(40 56 40)"/>
+      </g>
+      <path d="M50 70 q16 -4 24 -18 q-16 0 -24 12" fill="#7DB04E" stroke="#5E8B3A" stroke-width="2.5"/>
+    </symbol>
+    <symbol id="b-soil" viewBox="0 0 100 100">
+      <path d="M12 62 q38 -12 76 0 V86 q-38 8 -76 0 Z" fill="#A9743A" stroke="#6E4A20" stroke-width="3"/>
+      <circle cx="30" cy="74" r="2.6" fill="#6E4A20"/><circle cx="62" cy="78" r="2.6" fill="#6E4A20"/><circle cx="48" cy="70" r="2" fill="#6E4A20"/>
+      <path d="M50 60 V36" stroke="#2FA06E" stroke-width="4" stroke-linecap="round"/>
+      <path d="M50 44 q-16 -2 -20 -16 q16 0 20 12 Z" fill="#7DCB9F" stroke="#2FA06E" stroke-width="2.5"/>
+      <path d="M50 38 q14 -4 18 -18 q-14 0 -18 12 Z" fill="#7DCB9F" stroke="#2FA06E" stroke-width="2.5"/>
+    </symbol>
+    <symbol id="b-cal" viewBox="0 0 100 100">
+      <rect x="14" y="20" width="72" height="68" rx="10" fill="#FFFFFF" stroke="#8A6BC6" stroke-width="3"/>
+      <path d="M14 30 q0 -10 10 -10 h52 q10 0 10 10 v8 h-72 Z" fill="#8A6BC6"/>
+      <path d="M32 12 v16 M68 12 v16" stroke="#5E4796" stroke-width="5" stroke-linecap="round"/>
+      <g stroke="#E8782E" stroke-width="6" stroke-linecap="round"><path d="M30 50 V80 M42 50 V80 M58 50 V80 M70 50 V80"/></g>
+    </symbol>
+    <symbol id="b-mic" viewBox="0 0 100 100">
+      <rect x="38" y="10" width="24" height="44" rx="12" fill="#5C6B7A" stroke="#2F3B47" stroke-width="3"/>
+      <path d="M42 22 h16 M42 30 h16 M42 38 h16" stroke="#9FB0BF" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M28 42 q0 24 22 24 q22 0 22 -24" stroke="#2F3B47" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M50 66 v16 M36 86 h28" stroke="#2F3B47" stroke-width="5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="b-map" viewBox="0 0 150 130">
+      <use href="#b-choco" x="0" y="2" width="72" height="72"/>
+      <use href="#b-tteok" x="76" y="2" width="72" height="72"/>
+      <use href="#b-rice" x="6" y="60" width="68" height="68"/>
+      <use href="#b-cal" x="78" y="62" width="66" height="66"/>
+    </symbol>
+  </defs>
+</svg>
+
+<main class="wrap" id="app" aria-live="polite"></main>
+<footer class="credit">@sososoop_notes</footer>
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+
+<script>
+(() => {
+  /* ---------- 학습 내용: 기념일 뉴스 '11월 11일, 두 개의 이야기' ---------- */
+  const VOCAB = [
+    {w:'기념일', mean:'특별한 일을 잊지 않고 떠올리며 기억하는 날'},
+    {w:'유래',   mean:'어떤 일이 처음 생겨나서 전해 내려온 까닭이나 이야기'},
+    {w:'출시',   mean:'새로 만든 물건을 가게에 처음 내놓아 파는 것'},
+    {w:'지정',   mean:'여럿 가운데 어느 것을 가리켜 정하는 것'},
+    {w:'노고',   mean:'힘들게 애쓰며 수고하는 것'},
+    {w:'소비',   mean:'돈이나 물건을 써서 없애는 것'},
+    {w:'공존',   mean:'서로 다른 것이 함께 있는 것'},
+  ];
+  // 1. 낱말 뜻 맞히기
+  const VOC = VOCAB.map(v => ({mean:v.mean, ans:v.w}));
+  // 2. 빈칸 채우기
+  const FILL = [
+    {pre:'1983년, 막대과자 빼빼로가 처음', post:'되었어요.', ans:'출시', ch:['출시','지정','유래']},
+    {pre:'정부는 11월 11일을 농업인의 날로', post:'했어요.', ans:'지정', ch:['지정','소비','공존']},
+    {pre:'농업인의 날은 농사짓는 분들의', post:'를 기리는 날이에요.', ans:'노고', ch:['노고','기념일','출시']},
+    {pre:'가래떡을 나누면 우리 쌀의', post:'가 늘어나요.', ans:'소비', ch:['소비','유래','노고']},
+    {pre:'같은 날에 두 기념일이 사이좋게', post:'하고 있어요.', ans:'공존', ch:['공존','지정','기념일']},
+  ];
+  // 3. 낱말 가족 넓히기 (어휘 확장: 農 농사 · 日 날 · 苦 힘들다)
+  const EXT = [
+    {root:'농 農', hint:'농사', tip:'일 = 업(業), 사람 = 인(人)', q:'농사짓는 일을 하는 사람', ans:'농업인', ch:['농업인','농촌','농작물'], why:'農(농사 농) + 業(일 업) + 人(사람 인). 뉴스에 나온 말이에요.'},
+    {root:'농 農', hint:'농사', tip:'남자 어른 = 부(夫)', q:'농사를 짓는 사람', ans:'농부', ch:['농부','농촌','농작물'], why:'農(농사 농) + 夫(지아비 부). 벼를 기르는 농부!'},
+    {root:'농 農', hint:'농사', tip:'마을 = 촌(村)', q:'농사짓는 사람들이 모여 사는 마을', ans:'농촌', ch:['농촌','농부','농업인'], why:'農(농사 농) + 村(마을 촌). 논밭이 넓은 농촌 마을!'},
+    {root:'농 農', hint:'농사', tip:'짓다 = 작(作), 물건 = 물(物)', q:'논밭에서 기르는 곡식이나 채소', ans:'농작물', ch:['농작물','농촌','농부'], why:'農(농사 농) + 作(지을 작) + 物(물건 물). 배추, 무, 벼가 모두 농작물이에요.'},
+    {root:'일 日', hint:'날', tip:'기억하다 = 기념(紀念)', q:'특별한 일을 잊지 않고 떠올리며 기억하는 날', ans:'기념일', ch:['기념일','공휴일','생일'], why:'紀(벼리 기) + 念(생각 념) + 日(날 일). 뉴스에 나온 말이에요.'},
+    {root:'일 日', hint:'날', tip:'태어나다 = 생(生)', q:'세상에 태어난 날', ans:'생일', ch:['생일','휴일','기념일'], why:'生(날 생) + 日(날 일). 생일 축하해!'},
+    {root:'일 日', hint:'날', tip:'쉬다 = 휴(休)', q:'일을 하지 않고 쉬는 날', ans:'휴일', ch:['휴일','생일','공휴일'], why:'休(쉴 휴) + 日(날 일). 휴일엔 푹 쉬어요.'},
+    {root:'일 日', hint:'날', tip:'모두 = 공(公), 쉬다 = 휴(休)', q:'나라에서 정해 모두가 쉬는 날', ans:'공휴일', ch:['공휴일','휴일','기념일'], why:'公(공평할 공) + 休(쉴 휴) + 日(날 일). 한글날은 공휴일이에요.'},
+    {root:'고 苦', hint:'힘들다·괴롭다', tip:'일하다 = 노(勞)', q:'힘들게 애쓰며 수고하는 것', ans:'노고', ch:['노고','고생','고민'], why:'勞(일할 로) + 苦(쓸 고). 뉴스에서 "농사짓는 분들의 노고"라고 했어요.'},
+    {root:'고 苦', hint:'힘들다·괴롭다', tip:'살다 = 생(生)', q:'어렵고 힘든 일을 겪는 것', ans:'고생', ch:['고생','고통','노고'], why:'苦(쓸 고) + 生(날 생). 짐 옮기느라 고생했어요.'},
+    {root:'고 苦', hint:'힘들다·괴롭다', tip:'아프다 = 통(痛)', q:'몸이나 마음이 아프고 괴로운 것', ans:'고통', ch:['고통','고민','고생'], why:'苦(쓸 고) + 痛(아플 통). 아픔을 참는 것!'},
+    {root:'고 苦', hint:'힘들다·괴롭다', tip:'답답하다 = 민(悶)', q:'마음속으로 괴로워하며 애태우는 것', ans:'고민', ch:['고민','고통','노고'], why:'苦(쓸 고) + 悶(답답할 민). 무슨 선물을 줄지 고민돼요.'},
+  ];
+  // 4. 차례 맞추기 (처음→다음→마지막)
+  const ORDERS = [
+    {steps:['1983년: 빼빼로가 처음 출시돼요','1996년: 정부가 농어업인의 날을 지정해요','2006년: 가래떡데이를 알리기 시작해요']},
+    {steps:['학생들이 빼빼로를 주고받기 시작해요','1996년, 신문에 빼빼로데이 이야기가 실려요','1997년, 과자 회사가 빼빼로 나눔 행사를 해요']},
+    {steps:['1996년: 이름은 농어업인의 날','1997년: 농업인의 날로 이름이 바뀌어요','2006년: 가래떡데이로도 알려져요']},
+  ];
+  // 5. 사실일까 의견일까
+  const FO = [
+    {q:'1983년에 빼빼로가 처음 출시되었어요.', a:'fact', why:'기사에 나온 연도로 확인할 수 있는 사실이에요.'},
+    {q:'빼빼로보다 가래떡이 훨씬 맛있어요.', a:'opin', why:'사람마다 입맛이 달라서 의견이에요.'},
+    {q:'十과 一을 위아래로 합하면 土가 돼요.', a:'fact', why:'한자를 써 보면 확인되는 사실이에요.'},
+    {q:'11월 11일은 일 년 중 가장 신나는 날이에요.', a:'opin', why:'느낌을 말한 것이라 의견이에요.'},
+    {q:'가래떡데이는 2006년부터 알려지기 시작했어요.', a:'fact', why:'기사에 나온 연도로 확인되는 사실이에요.'},
+  ];
+  // 6. O X
+  const OX = [
+    {q:'빼빼로데이는 정부가 처음 만든 기념일이에요.', a:false, why:'빼빼로데이는 학생들 사이의 유행에서 시작되었다는 이야기가 가장 유력해요.'},
+    {q:'농업인의 날은 농사짓는 분들의 노고를 기리는 날이에요.', a:true, why:'농업의 중요성을 알리고 노고(勞 일할 로 · 苦 쓸 고)를 기리려고 정했어요.'},
+    {q:'가래떡데이는 우리 쌀 소비를 늘리려고 시작했어요.', a:true, why:'쌀로 만든 가래떡을 나누어 쌀을 더 많이 먹자는 뜻이에요.'},
+    {q:'빼빼로데이를 처음 시작한 사람이 누구인지 정확히 밝혀졌어요.', a:false, why:'누가, 몇 년에 처음 시작했는지는 아직 정확히 알려지지 않았어요.'},
+    {q:'11월 11일이 농업인의 날이 된 것은 土(흙 토) 글자와 관계있어요.', a:true, why:'十(열 십) + 一(한 일) = 土(흙 토). 농사는 흙에서 지어요.'},
+    {q:'두 기념일은 출발도 같고 목적도 같아요.', a:false, why:'출발과 목적은 달라요. 하지만 둘 다 나누는 날이 되었어요.'},
+  ];
+  const STAGES = [
+    {id:'voc',   t:'낱말 뜻 찾기',     d:'뜻을 보고 알맞은 낱말 고르기',        c:'var(--mint)',  cs:'var(--mint-soft)',  n:VOC.length},
+    {id:'fill',  t:'빈칸 채우기',       d:'문장에 알맞은 낱말 넣기',              c:'var(--lemon)', cs:'var(--lemon-soft)', n:FILL.length},
+    {id:'ext',   t:'낱말 가족 넓히기',  d:"'농'·'일'·'고'로 낱말 넓히기",         c:'var(--nut)',   cs:'var(--nut-soft)',   n:EXT.length},
+    {id:'order', t:'차례대로 맞추기',   d:'일어난 차례대로 조각 넣기',            c:'var(--coral)', cs:'var(--coral-soft)', n:ORDERS.length},
+    {id:'fo',    t:'사실일까 의견일까', d:'사실과 의견을 구별해요',               c:'var(--grape)', cs:'var(--grape-soft)', n:FO.length},
+    {id:'ox',    t:'11월 11일 O X',     d:'두 기념일 이야기 확인하기',            c:'var(--blue)',  cs:'var(--blue-soft)',  n:OX.length},
+  ];
+
+  /* ---------- 상태 ---------- */
+  const KEY = 'eleven-eleven-explorer';
+  const fresh = () => ({view:'map', stage:0, q:0, stars:0, done:{}, best:{}, name:'', sound:true});
+  let state = fresh();
+  let round = null;
+  try { const saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (saved) state = {...fresh(), ...saved, view:'map'}; } catch(e) {}
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e) {} };
+
+  /* ---------- 소리 (효과음만, 음성 없음) ---------- */
+  let ac = null;
+  function tone(freqs, dur = 0.12) {
+    if (!state.sound) return;
+    try {
+      ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+      freqs.forEach((f, i) => {
+        const o = ac.createOscillator(), g = ac.createGain();
+        o.type = 'sine'; o.frequency.value = f;
+        const t0 = ac.currentTime + i * dur;
+        g.gain.setValueAtTime(0.0001, t0);
+        g.gain.exponentialRampToValueAtTime(0.18, t0 + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur * 1.6);
+        o.connect(g).connect(ac.destination); o.start(t0); o.stop(t0 + dur * 1.7);
+      });
+    } catch(e) {}
+  }
+  const ding = () => tone([660, 880]);
+  const oops = () => tone([300, 240], 0.14);
+  const fanfare = () => tone([523, 659, 784, 1047], 0.13);
+
+  /* ---------- 도우미 ---------- */
+  const $app = document.getElementById('app');
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const ic = id => `<svg viewBox="0 0 100 100" aria-hidden="true"><use href="#b-${id}"/></svg>`;
+  const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const stageDone = i => !!state.done[STAGES[i].id];
+
+  function confetti() {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const box = document.getElementById('confetti');
+    const icons = ['🍫','🍡','🌾','⭐','💝'];
+    for (let i = 0; i < 26; i++) {
+      const s = document.createElement('span');
+      s.textContent = icons[i % icons.length];
+      s.style.left = Math.random() * 100 + 'vw';
+      s.style.animationDelay = Math.random() * 0.6 + 's';
+      box.appendChild(s);
+      setTimeout(() => s.remove(), 2600);
+    }
+  }
+
+  function topBar(showHome) {
+    return `<div class="bar">
+      ${showHome ? '<button class="home" data-act="map">🗺️ 탐험 지도</button>' : ''}
+      <span class="spacer"></span>
+      <span class="stars" aria-label="모은 별">⭐ ${state.stars}</span>
+      <button class="sound" data-act="sound" aria-label="효과음 켜기/끄기">${state.sound ? '🔊' : '🔈'}</button>
+    </div>`;
+  }
+
+  /* ---------- 화면: 탐험 지도 ---------- */
+  function renderMap() {
+    const doneCount = STAGES.filter((_, i) => stageDone(i)).length;
+    $app.innerHTML = `${topBar(false)}
+      <section class="hero">
+        <div>
+          <div class="kick">🔎 기념일 탐험대 출동!</div>
+          <h1>11월 11일, <span>두 개의 이야기</span>를 찾아요</h1>
+          <p>정거장 여섯 곳을 돌며 기념일 뉴스를 복습해요.</p>
+        </div>
+        <svg class="hero-art" viewBox="0 0 150 130" aria-hidden="true"><use href="#b-map"/></svg>
+      </section>
+      <nav class="trail" aria-label="정거장">
+        ${STAGES.map((s, i) => `
+          <button class="stop ${stageDone(i) ? 'done' : ''}" style="--c:${s.c};--cs:${s.cs}" data-act="stage" data-i="${i}">
+            <span class="num">${stageDone(i) ? '✓' : i + 1}</span>
+            <span class="txt"><span class="t disp">${s.t}</span><br><span class="d">${s.d}</span></span>
+            <span class="got">${state.best[s.id] != null ? `⭐ ${state.best[s.id]}/${s.n}` : `${s.n}문제`}</span>
+          </button>`).join('')}
+      </nav>
+      <button class="notebook-btn" data-act="notebook">📒 기념일 수첩 보기 (${doneCount}/${STAGES.length} 정거장)</button>`;
+  }
+
+  /* ---------- 정거장 공통 틀 ---------- */
+  function shell(inner) {
+    const s = STAGES[state.stage];
+    $app.innerHTML = `${topBar(true)}
+      <section class="board" style="--c:${s.c};--cs:${s.cs}">
+        <div class="stage-head"><span class="tag">정거장 ${state.stage + 1}</span><h2>${s.t}</h2></div>
+        <div class="progress">${Array.from({length:s.n}, (_, i) => `<i class="${i < state.q ? 'on' : ''}"></i>`).join('')}</div>
+        ${inner}
+        <div class="feedback" id="fb"></div>
+      </section>`;
+  }
+
+  function renderStage() {
+    const s = STAGES[state.stage];
+    if (state.q >= s.n) return renderClear();
+    round = {tries:0, solved:false};
+    ({voc:renderVoc, fill:renderFill, ext:renderExt, order:renderOrder, fo:renderFO, ox:renderOX})[s.id]();
+  }
+
+  function right(msg, el) {
+    if (round.solved) return;
+    round.solved = true;
+    if (round.tries === 0) { state.stars++; round.star = true; }
+    ding();
+    if (el) el.classList.add('is-right', 'pop');
+    const fb = document.getElementById('fb');
+    fb.className = 'feedback good';
+    fb.innerHTML = `<b>딩동댕! ${round.star ? '⭐ +1' : ''}</b><br>${msg}<button class="next" data-act="next">다음 ▶</button>`;
+    document.querySelector('.stars').textContent = '⭐ ' + state.stars;
+    save();
+    fb.querySelector('.next').focus();
+  }
+  function wrong(msg, el) {
+    round.tries++;
+    oops();
+    if (el) { el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake', 'is-wrong'); }
+    const fb = document.getElementById('fb');
+    fb.className = 'feedback bad';
+    fb.innerHTML = `<b>다시 해 볼까요?</b><br>${msg}`;
+  }
+
+  /* 1. 낱말 뜻 찾기 */
+  function renderVoc() {
+    const v = VOC[state.q];
+    const opts = shuffle([v.ans, ...shuffle(VOCAB.map(x=>x.w).filter(w=>w!==v.ans)).slice(0,2)]);
+    shell(`
+      <p class="ask">뜻을 읽고, <b>알맞은 낱말</b>을 골라요.</p>
+      <div class="means">"${esc(v.mean)}"</div>
+      <div class="picklist">${opts.map(o=>`<button class="pickbtn" data-act="voc" data-w="${esc(o)}">${esc(o)}</button>`).join('')}</div>`);
+  }
+
+  /* 2. 빈칸 채우기 */
+  function renderFill() {
+    const f = FILL[state.q];
+    round.pieces = shuffle(f.ch);
+    shell(`
+      <p class="ask">문장을 읽고, 빈칸에 알맞은 <b>낱말</b>을 눌러요.</p>
+      <div class="sentence">${f.pre?esc(f.pre)+' ':''}<span class="blank" id="blank">　　</span> ${esc(f.post)}</div>
+      <div class="pieces">${round.pieces.map(p=>`<button class="piece" data-act="fill" data-w="${esc(p)}">${esc(p)}</button>`).join('')}</div>`);
+  }
+
+  /* 3. 낱말 가족 넓히기 */
+  function renderExt() {
+    const x = EXT[state.q];
+    const opts = shuffle(x.ch);
+    shell(`
+      <p class="ask">낱말 가족을 넓혀요. 뜻을 읽고 <b>알맞은 낱말</b>을 골라요.</p>
+      <div style="text-align:center"><span class="rootchip">🔑 <b>${esc(x.root)}</b> = ${esc(x.hint)}</span></div>
+      <div class="means" style="background:var(--nut-soft);border-color:#E0C9A6">"${esc(x.q)}"</div>
+      <div class="picklist">${opts.map(o=>`<button class="pickbtn" data-act="ext" data-w="${esc(o)}">${esc(o)}</button>`).join('')}</div>`);
+  }
+
+  /* 4. 차례 맞추기 */
+  function renderOrder() {
+    const o = ORDERS[state.q];
+    round.parts = o.steps;
+    round.order = shuffle([0,1,2]);
+    while (round.order.join() === '0,1,2') round.order = shuffle([0,1,2]);
+    round.filled = [];
+    drawOrder();
+  }
+  function drawOrder() {
+    const labels = ['처음','다음','마지막'];
+    const used = new Set(round.filled);
+    shell(`
+      <p class="ask">일이 일어나는 <b>차례대로</b> 조각을 넣어요. 칸을 누르면 조각이 돌아와요.</p>
+      <div class="slots">${labels.map((lbl, i) => {
+        const p = round.filled[i];
+        return `<button class="slot ${p != null ? 'filled' : ''}" data-act="unslot" data-i="${i}" aria-label="${lbl} 칸">
+          <span class="lbl">${i+1}. ${lbl}</span><span class="fill">${p != null ? esc(round.parts[p]) : ''}</span></button>`;
+      }).join('')}</div>
+      <div class="pieces">${round.order.filter(p => !used.has(p)).map(p => `<button class="piece" style="font-size:16px;font-family:var(--body)" data-act="orderpick" data-p="${p}">${esc(round.parts[p])}</button>`).join('')}</div>`);
+  }
+
+  /* 5. 사실 / 의견 */
+  function renderFO() {
+    const f = FO[state.q];
+    shell(`
+      <p class="ask">이 문장은 <b>사실</b>일까요, <b>의견</b>일까요?</p>
+      <div class="quiz">"${esc(f.q)}"</div>
+      <div class="duo"><button class="fact" data-act="fo" data-v="fact">사실</button><button class="opin" data-act="fo" data-v="opin">의견</button></div>`);
+  }
+
+  /* 6. O X */
+  function renderOX() {
+    const o = OX[state.q];
+    shell(`
+      <p class="ask">맞으면 <b>O</b>, 틀리면 <b>X</b>를 눌러요.</p>
+      <div class="quiz">${esc(o.q)}</div>
+      <div class="ox"><button class="o" data-act="ox" data-v="1" aria-label="맞아요 O">O</button><button class="x" data-act="ox" data-v="0" aria-label="틀려요 X">X</button></div>`);
+  }
+
+  /* 정거장 완료 */
+  function renderClear() {
+    const s = STAGES[state.stage];
+    const got = state.stageStars || 0;
+    state.done[s.id] = true;
+    state.best[s.id] = Math.max(state.best[s.id] || 0, got);
+    save();
+    fanfare(); confetti();
+    const next = state.stage < STAGES.length - 1;
+    $app.innerHTML = `${topBar(true)}
+      <section class="board clear" style="--c:${s.c};--cs:${s.cs}">
+        <div class="big">🎉</div>
+        <h2>정거장 ${state.stage + 1} 통과!</h2>
+        <p>이번 정거장에서 별 <b>${got}</b>개를 모았어요.</p>
+        ${next ? `<button class="next" data-act="stage" data-i="${state.stage + 1}">다음 정거장으로 ▶</button>` : `<button class="next" data-act="notebook">📒 기념일 수첩 열기</button>`}
+        <button class="reset" data-act="map">탐험 지도로 돌아가기</button>
+      </section>`;
+  }
+
+  /* 기념일 수첩 */
+  function renderNotebook() {
+    const allDone = STAGES.every((_, i) => stageDone(i));
+    const cards = [
+      {ic:'cal',    nm:'기념일',       sm:'<b>기념일</b>은 특별한 일을<br>기억하는 날', need:'voc'},
+      {ic:'choco',  nm:'빼빼로데이',   sm:'<b>학생들</b> 사이 유행에서<br>시작했어요', need:'fill'},
+      {ic:'rice',   nm:'낱말 가족',    sm:'<b>농</b>은 농사, <b>일</b>은 날,<br><b>고</b>는 힘들다', need:'ext'},
+      {ic:'tteok',  nm:'가래떡데이',   sm:'2006년, 우리 쌀<br><b>소비</b>를 늘리려고', need:'order'},
+      {ic:'mic',    nm:'사실과 의견',  sm:'확인되면 <b>사실</b><br>느낌이면 <b>의견</b>', need:'fo'},
+      {ic:'soil',   nm:'十 + 一 = 土', sm:'<b>흙</b>에서 농사짓는<br>농업인의 날', need:'ox'},
+    ];
+    $app.innerHTML = `${topBar(true)}
+      <section class="board" style="--c:var(--ink);--cs:#E6F0F8">
+        <div class="stage-head"><h2>📒 나의 기념일 수첩</h2></div>
+        <p class="ask">정거장을 통과하면 기념일 카드가 하나씩 열려요.</p>
+        <div class="cards">${cards.map(c => {
+          const open = state.done[c.need];
+          return `<div class="mcard ${open ? '' : 'locked'}">${ic(c.ic)}<div class="nm">${open ? c.nm : '???'}</div><div class="sm">${open ? c.sm : '정거장을 통과하면 열려요'}</div></div>`;
+        }).join('')}</div>
+        ${allDone ? `
+        <div class="badge">
+          <h3>🏅 기념일 탐험대 인증서</h3>
+          <div class="who"><label for="who">탐험대원 이름</label><input id="who" maxlength="10" value="${esc(state.name)}" placeholder="이름 쓰기"></div>
+          <img class="cert-img" id="certImg" alt="기념일 탐험대 인증서">
+          <div><button class="save-cert" id="saveCert" data-act="savecert" hidden>📥 인증서 이미지 저장</button></div>
+          <p class="cert-hint" id="certHint">인증서 그림을 길게 누르면(컴퓨터는 오른쪽 클릭) 이미지로 저장할 수 있어요.</p>
+        </div>` : `<p class="ask" style="text-align:center;margin-top:16px">정거장 여섯 곳을 모두 통과하면 <b>인증서</b>를 받아요!</p>`}
+        <button class="reset" data-act="reset">처음부터 다시 하기</button>
+      </section>`;
+    const who = document.getElementById('who');
+    if (who) {
+      let t = null;
+      who.addEventListener('input', () => { state.name = who.value; save(); clearTimeout(t); t = setTimeout(drawCert, 250); });
+      drawCert();
+      const btn = document.getElementById('saveCert'); if (btn) btn.hidden = false;
+    }
+  }
+
+  /* ---------- 인증서 이미지 ---------- */
+  const CERT_W = 1080, CERT_H = 1350;
+  const CERT_ICONS = [
+    ['choco', '빼빼로데이'],
+    ['tteok', '가래떡데이'],
+    ['rice',  '농업인의 날'],
+    ['soil',  '十 + 一 = 土'],
+  ];
+  const certFonts = Promise.all([
+    document.fonts ? document.fonts.load('80px "Jua"') : null,
+    document.fonts ? document.fonts.load('30px "Gowun Dodum"') : null,
+  ]).catch(() => {});
+  const icoImgs = {};
+  function icoImage(id) {
+    if (!icoImgs[id]) icoImgs[id] = new Promise(res => {
+      const sym = document.getElementById('b-' + id);
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="400" height="400">${sym ? sym.innerHTML : ''}</svg>`;
+      const img = new Image();
+      img.onload = () => res(img); img.onerror = () => res(null);
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    });
+    return icoImgs[id];
+  }
+  function rrect(ctx, x, y, w, h, r) {
+    ctx.beginPath(); ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+  }
+  let certCanvas = null, drawSeq = 0;
+  async function drawCert() {
+    const seq = ++drawSeq;
+    await certFonts;
+    const imgs = await Promise.all(CERT_ICONS.map(m => icoImage(m[0])));
+    if (seq !== drawSeq) return;
+    const D = '"Jua", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif';
+    const B = '"Gowun Dodum", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif';
+    const c = document.createElement('canvas'); c.width = CERT_W; c.height = CERT_H;
+    const ctx = c.getContext('2d');
+    const g = ctx.createLinearGradient(0, 0, CERT_W, CERT_H);
+    g.addColorStop(0, '#E3F0FA'); g.addColorStop(0.55, '#DEF3E7'); g.addColorStop(1, '#FFF5CF');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, CERT_W, CERT_H);
+    rrect(ctx, 60, 60, CERT_W - 120, CERT_H - 120, 48); ctx.fillStyle = '#FFFFFF'; ctx.fill();
+    ctx.setLineDash([18, 12]); ctx.lineWidth = 6; ctx.strokeStyle = '#8DBFE3'; ctx.stroke(); ctx.setLineDash([]);
+    ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+    rrect(ctx, CERT_W / 2 - 210, 110, 420, 64, 32); ctx.fillStyle = '#E3F0FA'; ctx.fill();
+    ctx.fillStyle = '#3A86C8'; ctx.font = `34px ${D}`; ctx.fillText('기념일 뉴스 읽기 완료!', CERT_W / 2, 155);
+    ctx.fillStyle = '#23384A'; ctx.font = `88px ${D}`; ctx.fillText('기념일 탐험대 인증서', CERT_W / 2, 290);
+    const colW = (CERT_W - 160) / 4;
+    CERT_ICONS.forEach((m, i) => {
+      const cx = 80 + colW * i + colW / 2;
+      rrect(ctx, cx - 100, 340, 200, 200, 36); ctx.fillStyle = '#EFF6FC'; ctx.fill();
+      if (imgs[i]) ctx.drawImage(imgs[i], cx - 85, 352, 170, 170);
+      ctx.fillStyle = '#23384A'; ctx.font = `28px ${D}`; ctx.fillText(m[1], cx, 592);
+    });
+    ctx.fillStyle = '#5F7486'; ctx.font = `34px ${D}`; ctx.fillText('탐험대원 이름', CERT_W / 2, 720);
+    const nm = (state.name || '').trim() || '탐험대원';
+    let size = 120; ctx.font = `${size}px ${D}`;
+    while (ctx.measureText(nm).width > 760 && size > 50) { size -= 6; ctx.font = `${size}px ${D}`; }
+    ctx.fillStyle = '#E8782E'; ctx.fillText(nm, CERT_W / 2, 850);
+    ctx.fillStyle = '#F2B100'; rrect(ctx, CERT_W / 2 - 300, 875, 600, 10, 5); ctx.fill();
+    rrect(ctx, CERT_W / 2 - 210, 925, 420, 84, 42); ctx.fillStyle = '#FFF5CF'; ctx.fill();
+    ctx.fillStyle = '#23384A'; ctx.font = `44px ${D}`; ctx.fillText(`모은 별 ⭐ ${state.stars}개`, CERT_W / 2, 982);
+    rrect(ctx, 130, 1050, CERT_W - 260, 110, 30); ctx.fillStyle = '#E3F0FA'; ctx.fill();
+    ctx.fillStyle = '#1F5480'; ctx.font = `36px ${D}`; ctx.fillText('"출발은 달라도, 나누는 마음은 같아요!"', CERT_W / 2, 1120);
+    const d = new Date();
+    ctx.fillStyle = '#8A968F'; ctx.font = `28px ${B}`;
+    ctx.fillText(`${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일`, CERT_W / 2, 1212);
+    ctx.fillStyle = '#9AA3AD'; ctx.font = `26px ${D}`; ctx.fillText('@sososoop_notes', CERT_W / 2, 1252);
+    certCanvas = c;
+    const img = document.getElementById('certImg');
+    if (img) img.src = c.toDataURL('image/png');
+  }
+  async function saveCert(btn) {
+    if (!certCanvas) return;
+    const hint = document.getElementById('certHint');
+    btn.disabled = true;
+    try {
+      const blob = await new Promise(r => certCanvas.toBlob(r, 'image/png'));
+      const nm = (state.name || '').trim().replace(/[\\/:*?"<>|]/g, '') || '탐험대원';
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `기념일탐험대_인증서_${nm}.png`;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      if (hint) hint.textContent = '인증서를 저장했어요! 🎉 저장이 안 되면 그림을 길게 눌러 저장해 주세요.';
+    } catch(e) {
+      if (hint) hint.textContent = '인증서 그림을 길게 눌러(컴퓨터는 오른쪽 클릭) 저장해 주세요.';
+    } finally { btn.disabled = false; }
+  }
+
+  function render() {
+    if (state.view === 'map') renderMap();
+    else if (state.view === 'notebook') renderNotebook();
+    else renderStage();
+    window.scrollTo({top:0});
+  }
+
+  /* ---------- 입력 ---------- */
+  $app.addEventListener('click', e => {
+    const b = e.target.closest('[data-act]');
+    if (!b) return;
+    const act = b.dataset.act;
+
+    if (act === 'map') { state.view = 'map'; return render(); }
+    if (act === 'notebook') { state.view = 'notebook'; return render(); }
+    if (act === 'sound') { state.sound = !state.sound; save(); b.textContent = state.sound ? '🔊' : '🔈'; return; }
+    if (act === 'savecert') return saveCert(b);
+    if (act === 'reset') { const keep = state.sound; state = fresh(); state.sound = keep; save(); return render(); }
+    if (act === 'stage') { state.view = 'stage'; state.stage = +b.dataset.i; state.q = 0; state.stageStars = 0; return render(); }
+    if (act === 'next') { if (round && round.star) state.stageStars = (state.stageStars || 0) + 1; state.q++; return render(); }
+    if (round && round.solved) return;
+
+    if (act === 'voc') {
+      const v = VOC[state.q];
+      if (b.dataset.w === v.ans) right(`<b style="color:var(--mint)">${esc(v.ans)}</b> — ${esc(v.mean)}`, b);
+      else wrong(`뜻을 한 번 더 읽어 봐요. 어떤 낱말이 어울릴까요?`, b);
+    }
+    if (act === 'fill') {
+      const f = FILL[state.q];
+      if (b.dataset.w === f.ans) {
+        const bl = document.getElementById('blank'); if (bl) bl.textContent = f.ans;
+        right(`${f.pre?esc(f.pre)+' ':''}<b style="color:var(--lemon)">${esc(f.ans)}</b> ${esc(f.post)}`, b);
+      } else wrong(`문장에 넣어 읽어 보면 어색해요. 다른 낱말을 골라 봐요.`, b);
+    }
+    if (act === 'ext') {
+      const x = EXT[state.q];
+      if (b.dataset.w === x.ans) right(`<b style="color:var(--nut)">${esc(x.ans)}</b> — ${esc(x.why)}`, b);
+      else wrong(`🔑 <b>${esc(x.root)} = ${esc(x.hint)}</b>, 그리고 <b>${esc(x.tip)}</b>. 글자 뜻을 합쳐 생각해 봐요.`, b);
+    }
+    if (act === 'orderpick') {
+      const i = round.filled.findIndex(v => v == null);
+      round.filled[i === -1 ? round.filled.length : i] = +b.dataset.p;
+      drawOrder();
+      if (round.filled.filter(v => v != null).length === 3) {
+        if (round.filled.join() === '0,1,2') right(`<b>차례 맞았어요!</b><br>${round.parts.map((p,i)=>`${i+1}. ${esc(p)}`).join('<br>')}`, document.querySelector('.slots'));
+        else wrong(`<b>처음 → 다음 → 마지막</b> 차례예요. 칸을 눌러 조각을 빼고 다시 넣어 봐요.`, document.querySelector('.slots'));
+      }
+    }
+    if (act === 'unslot') {
+      const i = +b.dataset.i;
+      if (round.filled[i] == null) return;
+      round.filled[i] = null;
+      drawOrder();
+    }
+    if (act === 'fo') {
+      const f = FO[state.q];
+      if (b.dataset.v === f.a) right(`${f.a==='fact'?'사실':'의견'}이에요! ${esc(f.why)}`, b);
+      else wrong(`확인할 수 있으면 '사실', 생각이나 느낌이면 '의견'이에요.`, b);
+    }
+    if (act === 'ox') {
+      const o = OX[state.q];
+      const v = b.dataset.v === '1';
+      if (v === o.a) right(`${o.a ? 'O' : 'X'} 맞아요! ${esc(o.why)}`, b);
+      else wrong(`기념일 뉴스에서 읽은 내용을 떠올려 봐요.`, b);
+    }
+  });
+
+  render();
+})();
+</script>
+</body></html>
