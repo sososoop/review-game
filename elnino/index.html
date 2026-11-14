@@ -1,0 +1,715 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>겨울 안전 탐험대 | 소소숲</title><meta name="description" content="안전 뉴스 '역대급 엘니뇨, 올겨울엔 눈이 많이 온대요(대설·한파 대비)' 읽기자료를 복습하는 학습게임"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#eaf4fb;color:#23384A}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap">
+<style>
+  /* 탐험 지도 → 정거장(6개) → 겨울 안전 수첩 */
+  :root{
+    color-scheme:light;
+    --sky:#DDEEFA;
+    --sea:#EEF6FC;
+    --paper:#FFFFFF;
+    --ink:#23384A;
+    --sub:#5F7486;
+    --line:#CFE0EE;
+    --leaf:#3A86C8; --leaf-soft:#E3F0FA;
+    --coral:#E8782E; --coral-soft:#FDEADB;
+    --lemon:#F2B100; --lemon-soft:#FFF5CF;
+    --mint:#2FA06E;  --mint-soft:#DEF3E7;
+    --blue:#3C8DBB;  --blue-soft:#DEEFF7;
+    --grape:#8A6BC6; --grape-soft:#ECE6F8;
+    --nut:#A9743A;   --nut-soft:#F3E7D8;
+    --good:#2FA06E; --bad:#E0574B;
+    --display:'Jua','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    --body:'Gowun Dodum','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    background:linear-gradient(180deg,var(--sky) 0%,var(--sea) 55%,#F4F8FB 100%) fixed;
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:18px;line-height:1.6;
+    word-break:keep-all;overflow-wrap:break-word;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:18px 40px;}
+  button{font:inherit;color:inherit;cursor:pointer;border:none;background:none;}
+  button:focus-visible{outline:3px solid var(--leaf);outline-offset:3px;border-radius:14px;}
+  h1,h2,h3,.disp{font-family:var(--display);font-weight:400;letter-spacing:0.01em;text-wrap:balance;margin:0;}
+
+  .bar{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .bar .home{background:var(--paper);border:2px solid var(--line);border-radius:14px;padding:6px 14px;font-family:var(--display);font-size:18px;}
+  .bar .spacer{flex:1;}
+  .stars{font-family:var(--display);font-size:20px;background:var(--lemon-soft);border:2px solid #F2DA86;border-radius:999px;padding:4px 14px;font-variant-numeric:tabular-nums;}
+  .sound{background:var(--paper);border:2px solid var(--line);border-radius:14px;width:46px;height:46px;font-size:20px;}
+
+  /* 표지 */
+  .hero{background:var(--paper);border:3px solid var(--line);border-radius:28px;padding:22px 22px 18px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;}
+  .hero .kick{font-family:var(--display);color:var(--leaf);font-size:17px;}
+  .hero h1{font-size:clamp(30px,6.4vw,46px);line-height:1.15;}
+  .hero h1 span{color:var(--coral);}
+  .hero p{margin:6px 0 0;color:var(--sub);}
+  .hero-art{width:150px;height:130px;}
+
+  /* 탐험 지도 */
+  .trail{position:relative;margin-top:18px;display:grid;gap:14px;}
+  .trail::before{content:"";position:absolute;left:43px;top:30px;bottom:30px;width:8px;border-radius:8px;
+    background:repeating-linear-gradient(180deg,#BFD9EE 0 14px,transparent 14px 24px);}
+  .stop{position:relative;display:flex;align-items:center;gap:14px;text-align:left;background:var(--paper);border:3px solid var(--line);border-radius:22px;padding:12px 16px 12px 12px;transition:transform .15s,border-color .15s;width:100%;}
+  .stop:hover{transform:translateY(-2px);border-color:var(--c);}
+  .stop .num{flex:0 0 auto;width:66px;height:66px;border-radius:50%;background:var(--cs);border:3px solid var(--c);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:28px;color:var(--c);}
+  .stop.done .num{background:var(--c);color:#fff;}
+  .stop .txt{flex:1;min-width:0;}
+  .stop .t{font-family:var(--display);font-size:22px;}
+  .stop .d{color:var(--sub);font-size:16px;}
+  .stop .got{font-family:var(--display);font-size:17px;color:var(--sub);white-space:nowrap;}
+  .notebook-btn{margin-top:18px;width:100%;background:var(--ink);color:#fff;border-radius:20px;padding:16px;font-family:var(--display);font-size:22px;}
+
+  /* 게임 판 */
+  .board{background:var(--paper);border:3px solid var(--line);border-radius:28px;padding:20px 18px 22px;}
+  .stage-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .stage-head .tag{font-family:var(--display);color:#fff;background:var(--c);border-radius:12px;padding:2px 12px;font-size:17px;}
+  .stage-head h2{font-size:26px;}
+  .progress{display:flex;gap:6px;margin:10px 0 4px;}
+  .progress i{flex:1;height:10px;border-radius:10px;background:#E6EEF5;}
+  .progress i.on{background:var(--c);}
+  .ask{font-size:19px;margin:10px 0 14px;color:var(--sub);}
+  .ask b{color:var(--ink);}
+
+  /* 뜻→낱말 고르기 / 빈칸 채우기 공통 */
+  .means{background:var(--mint-soft);border:3px solid #B2E0C6;border-radius:18px;padding:14px 16px;font-size:20px;text-align:center;margin:6px 0 14px;line-height:1.5;}
+  .picklist{display:grid;gap:10px;}
+  .pickbtn{background:#FBFDFF;border:3px solid var(--line);border-radius:16px;padding:14px 16px;font-family:var(--display);font-size:23px;text-align:center;}
+  .pickbtn:hover{border-color:var(--c);}
+
+  /* 낱말 가족 힌트 */
+  .rootchip{display:inline-flex;align-items:center;gap:8px;background:var(--nut-soft);border:2px solid #E0C9A6;border-radius:999px;padding:4px 14px 4px 10px;font-family:var(--display);font-size:18px;color:#7A5222;margin:0 0 8px;}
+  .rootchip b{font-weight:400;background:var(--nut);color:#fff;border-radius:999px;padding:0 10px;}
+
+  /* 빈칸 문장 */
+  .sentence{font-family:var(--display);font-size:clamp(22px,5vw,30px);text-align:center;margin:8px 0 14px;line-height:1.5;}
+  .sentence .blank{display:inline-block;min-width:3.4em;border-bottom:4px solid var(--c);color:var(--c);}
+  .pieces{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;min-height:64px;}
+  .piece{background:var(--paper);border:3px solid #BFD9EE;border-radius:16px;padding:10px 18px;font-family:var(--display);font-size:22px;box-shadow:0 3px 0 #BFD9EE;}
+  .piece:active{transform:translateY(2px);box-shadow:none;}
+
+  /* 순서 맞추기 */
+  .slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:6px 0 16px;}
+  .slot{min-height:120px;border-radius:18px;border:3px dashed var(--c);background:var(--cs);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:8px 6px;text-align:center;}
+  .slot .lbl{font-family:var(--display);font-size:16px;color:var(--c);margin-bottom:4px;}
+  .slot .fill{font-family:var(--body);font-size:15px;line-height:1.35;min-height:1.3em;word-break:keep-all;}
+  .slot.filled{border-style:solid;background:var(--paper);}
+
+  /* 두 칸 선택 (사실/의견) */
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .duo button{border-radius:22px;padding:18px 10px;font-family:var(--display);font-size:26px;border:4px solid;}
+  .duo .fact{color:var(--blue);border-color:#BBDCEC;background:var(--blue-soft);}
+  .duo .opin{color:var(--grape);border-color:#D3C9F0;background:var(--grape-soft);}
+
+  /* O X */
+  .quiz{font-family:var(--display);font-size:clamp(21px,4.8vw,27px);text-align:center;background:var(--leaf-soft);border-radius:20px;padding:20px 14px;margin:6px 0 16px;line-height:1.45;}
+  .ox{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .ox button{border-radius:22px;padding:14px;font-family:var(--display);font-size:46px;border:4px solid;}
+  .ox .o{color:var(--mint);border-color:#B2E0C6;background:var(--mint-soft);}
+  .ox .x{color:var(--coral);border-color:#F6CDA8;background:var(--coral-soft);}
+
+  /* 피드백 */
+  .feedback{min-height:56px;margin-top:14px;border-radius:16px;padding:10px 14px;text-align:center;font-size:19px;}
+  .feedback.good{background:var(--mint-soft);color:#176B49;}
+  .feedback.bad{background:var(--coral-soft);color:#A8511C;}
+  .feedback b{font-family:var(--display);font-weight:400;font-size:22px;}
+  .next{display:block;margin:12px auto 0;background:var(--ink);color:#fff;border-radius:16px;padding:10px 30px;font-family:var(--display);font-size:21px;}
+  .is-right{border-color:var(--good)!important;background:var(--mint-soft)!important;}
+  .is-wrong{border-color:var(--bad)!important;}
+  .shake{animation:shake .35s;}
+  @keyframes shake{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+  .pop{animation:pop .4s;}
+  @keyframes pop{50%{transform:scale(1.06)}}
+
+  .clear{text-align:center;padding:10px 0;}
+  .clear .big{font-size:64px;line-height:1.1;}
+  .clear h2{font-size:30px;margin:6px 0;}
+  .clear p{color:var(--sub);margin:0 0 10px;}
+
+  /* 겨울 안전 수첩 */
+  .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px;}
+  .mcard{background:var(--paper);border:3px solid var(--line);border-radius:22px;padding:12px;text-align:center;}
+  .mcard svg{width:84px;height:84px;}
+  .mcard .nm{font-family:var(--display);font-size:20px;}
+  .mcard .sm{font-size:15.5px;color:var(--sub);line-height:1.5;}
+  .mcard .sm b{color:var(--leaf);font-weight:400;font-family:var(--display);}
+  .mcard.locked{filter:grayscale(1);opacity:.45;}
+  .badge{margin-top:16px;background:linear-gradient(135deg,#E3F0FA,#DEF3E7 60%,#FFF5CF);border:3px solid #B5D6EE;border-radius:26px;padding:18px;text-align:center;}
+  .badge h3{font-size:26px;}
+  .badge .who{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;margin:10px 0;}
+  .badge input{font-family:var(--display);font-size:22px;text-align:center;border:3px solid #B5D6EE;border-radius:14px;padding:6px 10px;width:min(220px,100%);background:#fff;color:var(--ink);}
+  .cert-img{display:block;width:100%;max-width:440px;height:auto;margin:12px auto 0;border-radius:18px;box-shadow:0 6px 20px rgba(35,56,74,.15);background:#fff;}
+  .save-cert{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:var(--leaf);color:#fff;border-radius:16px;padding:10px 24px;font-family:var(--display);font-size:21px;box-shadow:0 3px 0 #23638F;}
+  .save-cert:active{transform:translateY(2px);box-shadow:none;}
+  .save-cert:disabled{opacity:.5;cursor:default;}
+  .cert-hint{font-size:15px;color:var(--sub);margin:8px 0 0;}
+  .reset{display:block;margin:18px auto 0;color:var(--sub);text-decoration:underline;font-size:15px;}
+
+  .confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:5;}
+  .confetti span{position:absolute;top:-40px;font-size:28px;animation:fall 1.8s ease-in forwards;}
+  @keyframes fall{to{transform:translateY(110vh) rotate(300deg);}}
+
+  @media (max-width:520px){
+    .hero{grid-template-columns:1fr;}
+    .hero-art{display:none;}
+    .slot .fill{font-size:13.5px;}
+    .slot{min-height:112px;}
+    .pickbtn{font-size:21px;}
+  }
+  .credit{text-align:center;font-family:var(--display);font-size:15px;color:var(--sub);letter-spacing:0.03em;padding-block:0 28px;margin-top:-18px;}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="b-snow" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="44" fill="#E4F2FC" stroke="#6FA8D6" stroke-width="3"/>
+      <g stroke="#3C8DBB" stroke-width="6" stroke-linecap="round">
+        <path d="M50 16 V84 M20.5 33 L79.5 67 M20.5 67 L79.5 33"/>
+      </g>
+      <g stroke="#3C8DBB" stroke-width="4" stroke-linecap="round" fill="none">
+        <path d="M42 22 L50 30 L58 22 M42 78 L50 70 L58 78"/>
+        <path d="M24 44 L33 38 L30 28 M76 56 L67 62 L70 72 M24 56 L33 62 L30 72 M76 44 L67 38 L70 28"/>
+      </g>
+      <circle cx="50" cy="50" r="6" fill="#FFFFFF" stroke="#3C8DBB" stroke-width="3"/>
+    </symbol>
+    <symbol id="b-truck" viewBox="0 0 100 100">
+      <path d="M4 70 L16 52 H26 V74 H4 Z" fill="#9AA6B2" stroke="#4A5866" stroke-width="3" stroke-linejoin="round"/>
+      <rect x="26" y="40" width="40" height="34" rx="4" fill="#F29A2E" stroke="#8A4B12" stroke-width="3"/>
+      <path d="M66 50 H82 L94 62 V74 H66 Z" fill="#F7A93B" stroke="#8A4B12" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M70 54 H81 L88 62 H70 Z" fill="#CFE8F7" stroke="#8A4B12" stroke-width="2"/>
+      <rect x="40" y="32" width="12" height="8" rx="2" fill="#E0574B" stroke="#8A2E26" stroke-width="2"/>
+      <circle cx="40" cy="78" r="9" fill="#2B2F36" stroke="#111" stroke-width="2"/><circle cx="80" cy="78" r="9" fill="#2B2F36" stroke="#111" stroke-width="2"/>
+      <circle cx="40" cy="78" r="3.5" fill="#C9CED6"/><circle cx="80" cy="78" r="3.5" fill="#C9CED6"/>
+      <g fill="#FFFFFF" stroke="#9CC3E0" stroke-width="1.5"><circle cx="10" cy="40" r="4"/><circle cx="20" cy="30" r="3"/><circle cx="6" cy="24" r="3"/></g>
+    </symbol>
+    <symbol id="b-phone" viewBox="0 0 100 100">
+      <rect x="28" y="8" width="44" height="84" rx="9" fill="#3B4654" stroke="#1F2731" stroke-width="3"/>
+      <rect x="33" y="18" width="34" height="62" rx="3" fill="#FFF6E6"/>
+      <path d="M50 28 L64 54 H36 Z" fill="#F2B100" stroke="#B07E00" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M50 37 V46" stroke="#43230F" stroke-width="3.5" stroke-linecap="round"/><circle cx="50" cy="50.5" r="1.8" fill="#43230F"/>
+      <path d="M38 62 H62 M38 70 H56" stroke="#9AA6B2" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="50" cy="86" r="3" fill="#9AA6B2"/>
+    </symbol>
+    <symbol id="b-shelter" viewBox="0 0 100 100">
+      <path d="M10 48 L50 14 L90 48" fill="#E0574B" stroke="#8A2E26" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M8 48 q20 -8 42 -34 q22 26 42 34" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity=".9"/>
+      <rect x="20" y="46" width="60" height="44" fill="#FFE8C7" stroke="#8A4B12" stroke-width="3"/>
+      <rect x="44" y="62" width="14" height="28" rx="2" fill="#A9743A" stroke="#6E4A20" stroke-width="2.5"/>
+      <rect x="27" y="56" width="12" height="12" rx="2" fill="#FFD25E" stroke="#B07E00" stroke-width="2"/>
+      <rect x="63" y="56" width="12" height="12" rx="2" fill="#FFD25E" stroke="#B07E00" stroke-width="2"/>
+      <path d="M70 26 V12 H80 V34" fill="#9AA6B2" stroke="#4A5866" stroke-width="2.5"/>
+    </symbol>
+    <symbol id="b-cal" viewBox="0 0 100 100">
+      <rect x="14" y="20" width="72" height="68" rx="10" fill="#FFFFFF" stroke="#8A6BC6" stroke-width="3"/>
+      <path d="M14 30 q0 -10 10 -10 h52 q10 0 10 10 v8 h-72 Z" fill="#8A6BC6"/>
+      <path d="M32 12 v16 M68 12 v16" stroke="#5E4796" stroke-width="5" stroke-linecap="round"/>
+      <g stroke="#E8782E" stroke-width="6" stroke-linecap="round"><path d="M30 50 V80 M42 50 V80 M58 50 V80 M70 50 V80"/></g>
+    </symbol>
+    <symbol id="b-mic" viewBox="0 0 100 100">
+      <rect x="38" y="10" width="24" height="44" rx="12" fill="#5C6B7A" stroke="#2F3B47" stroke-width="3"/>
+      <path d="M42 22 h16 M42 30 h16 M42 38 h16" stroke="#9FB0BF" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M28 42 q0 24 22 24 q22 0 22 -24" stroke="#2F3B47" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M50 66 v16 M36 86 h28" stroke="#2F3B47" stroke-width="5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="b-map" viewBox="0 0 150 130">
+      <use href="#b-snow" x="2" y="0" width="70" height="70"/>
+      <use href="#b-truck" x="74" y="2" width="74" height="74"/>
+      <use href="#b-phone" x="6" y="64" width="64" height="64"/>
+      <use href="#b-shelter" x="80" y="62" width="66" height="66"/>
+    </symbol>
+  </defs>
+</svg>
+
+<main class="wrap" id="app" aria-live="polite"></main>
+<footer class="credit">@sososoop_notes</footer>
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+
+<script>
+(() => {
+  /* ---------- 학습 내용: 안전 뉴스 '역대급 엘니뇨, 올겨울엔 눈이 많이 온대요' ---------- */
+  const VOCAB = [
+    {w:'대설', mean:'눈이 아주 많이 내리는 것'},
+    {w:'한파', mean:'기온이 갑자기 크게 떨어져 몹시 추워지는 것'},
+    {w:'결빙', mean:'물이 얼어서 얼음이 되는 것'},
+    {w:'제설', mean:'쌓인 눈을 치우는 것'},
+    {w:'비축', mean:'필요할 때 쓰려고 미리 모아 두는 것'},
+    {w:'취약', mean:'무르고 약해서 피해를 입기 쉬운 것'},
+    {w:'재난', mean:'태풍·지진·폭설처럼 뜻밖에 일어난 큰 피해'},
+  ];
+  // 1. 낱말 뜻 맞히기
+  const VOC = VOCAB.map(v => ({mean:v.mean, ans:v.w}));
+  // 2. 빈칸 채우기
+  const FILL = [
+    {pre:'눈이 아주 많이 내려서', post:' 경보가 내려졌어요.', ans:'대설', ch:['대설','한파','재난']},
+    {pre:'갑자기 몹시 추워지는', post:'가 찾아왔어요.', ans:'한파', ch:['한파','결빙','비축']},
+    {pre:'도로', post:' 때문에 자동차가 미끄러졌어요.', ans:'결빙', ch:['결빙','제설','취약']},
+    {pre:'정부는 제설제 119만 톤을', post:'했어요.', ans:'비축', ch:['비축','대설','결빙']},
+    {pre:'추위에', post:'한 이웃을 함께 도와요.', ans:'취약', ch:['취약','재난','한파']},
+  ];
+  // 3. 낱말 가족 넓히기 (어휘 확장: 雪 눈 · 氷 얼음 · 寒 차다)
+  const EXT = [
+    {root:'설 雪', hint:'눈', tip:'크다 = 대(大)', q:'눈이 아주 많이 내리는 것', ans:'대설', ch:['대설','폭설','설경'], why:'大(큰 대) + 雪(눈 설). 뉴스에 나온 말이에요.'},
+    {root:'설 雪', hint:'눈', tip:'덜어 내다 = 제(除)', q:'쌓인 눈을 치우는 것', ans:'제설', ch:['제설','적설','대설'], why:'除(덜 제) + 雪(눈 설). 눈을 덜어 내니까 제설! 뉴스에 나온 말이에요.'},
+    {root:'설 雪', hint:'눈', tip:'사납다 = 폭(暴)', q:'갑자기 한꺼번에 많이 내리는 눈', ans:'폭설', ch:['폭설','설경','제설'], why:'暴(사나울 폭) + 雪(눈 설). 사납게 쏟아지는 눈이에요.'},
+    {root:'설 雪', hint:'눈', tip:'쌓다 = 적(積)', q:'땅 위에 쌓여 있는 눈', ans:'적설', ch:['적설','폭설','대설'], why:'積(쌓을 적) + 雪(눈 설). 쌓인 눈이 적설이에요.'},
+    {root:'설 雪', hint:'눈', tip:'경치 = 경(景)', q:'눈이 덮인 경치', ans:'설경', ch:['설경','적설','제설'], why:'雪(눈 설) + 景(경치 경). 하얀 눈 경치예요.'},
+    {root:'빙 氷', hint:'얼음', tip:'맺다 = 결(結)', q:'물이 얼어서 얼음이 되는 것', ans:'결빙', ch:['결빙','빙판','빙하'], why:'結(맺을 결) + 氷(얼음 빙). 뉴스에서 도로 결빙을 막는다고 했어요.'},
+    {root:'빙 氷', hint:'얼음', tip:'널빤지 = 판(板)', q:'얼음이 얼어 미끄러운 바닥', ans:'빙판', ch:['빙판','빙수','결빙'], why:'氷(얼음 빙) + 板(널 판). 얼음 바닥이라 빙판!'},
+    {root:'빙 氷', hint:'얼음', tip:'물 = 수(水)', q:'얼음을 잘게 갈아 만든 음식', ans:'빙수', ch:['빙수','빙하','빙판'], why:'氷(얼음 빙) + 水(물 수). 여름에 먹는 팥빙수!'},
+    {root:'빙 氷', hint:'얼음', tip:'큰 물줄기 = 하(河)', q:'높은 산이나 극지방의 아주 큰 얼음덩어리', ans:'빙하', ch:['빙하','결빙','빙수'], why:'氷(얼음 빙) + 河(물 하). 얼음이 강처럼 천천히 흘러요.'},
+    {root:'한 寒', hint:'차다·추위', tip:'물결 = 파(波)', q:'기온이 갑자기 떨어져 몹시 추워지는 것', ans:'한파', ch:['한파','한기','혹한'], why:'寒(찰 한) + 波(물결 파). 추위가 물결처럼 밀려와요. 뉴스에 나온 말이에요.'},
+    {root:'한 寒', hint:'차다·추위', tip:'막다 = 방(防)', q:'추위를 막음', ans:'방한', ch:['방한','혹한','한파'], why:'防(막을 방) + 寒(찰 한). 뉴스에 나온 방한용품은 추위를 막는 물건이에요.'},
+    {root:'한 寒', hint:'차다·추위', tip:'기운 = 기(氣)', q:'차가운 기운', ans:'한기', ch:['한기','방한','한파'], why:'寒(찰 한) + 氣(기운 기). 찬 기운이 한기예요.'},
+    {root:'한 寒', hint:'차다·추위', tip:'심하다 = 혹(酷)', q:'몹시 심한 추위', ans:'혹한', ch:['혹한','한기','방한'], why:'酷(심할 혹) + 寒(찰 한). 한파와 뜻이 비슷한 말이에요.'},
+  ];
+  // 4. 차례 맞추기 (처음→다음→마지막)
+  const ORDERS = [
+    {steps:['11월 11일: 겨울철 재난 대책을 발표해요','11월 15일: 대책 기간이 시작돼요','11월 23일: 대설 재난 문자가 전국으로 넓어져요']},
+    {steps:['눈이 온다는 예보가 나와요','눈 오기 1~2시간 전에 제설제를 뿌려요','눈이 와도 도로가 덜 얼어요']},
+    {steps:['엘니뇨로 바닷물이 따뜻해져요','따뜻하고 축축한 남풍이 불어와요','겨울에 눈이나 비가 늘 수 있어요']},
+  ];
+  // 5. 사실일까 의견일까
+  const FO = [
+    {q:'정부는 제설제 119만 톤을 비축했어요.', a:'fact', why:'기사에 나온 숫자로 확인되는 사실이에요.'},
+    {q:'눈 오는 날이 겨울에서 가장 신나는 날이에요.', a:'opin', why:'사람마다 생각이 달라서 의견이에요.'},
+    {q:'올해 한파 쉼터는 6만 4494곳이에요.', a:'fact', why:'기사에 나온 숫자로 확인되는 사실이에요.'},
+    {q:'하얀 설경은 세상에서 제일 아름다워요.', a:'opin', why:'느낌을 말한 것이라 의견이에요.'},
+    {q:'대설 재난 문자는 전국 227개 시군구로 보내져요.', a:'fact', why:'찾아보면 확인되는 사실이에요.'},
+  ];
+  // 6. O X
+  const OX = [
+    {q:'대설 재난 문자는 11월 23일부터 전국으로 보내져요.', a:true, why:'지난해 101개 시군구에서 시험 삼아 보내다가 전국 227개로 넓혀요.'},
+    {q:'제설제는 눈이 다 쌓인 뒤에만 뿌려요.', a:false, why:'눈이 내리기 1~2시간 전부터 미리 뿌려서 도로 결빙을 막아요.'},
+    {q:"'결빙'은 물이 얼어서 얼음이 되는 것이에요.", a:true, why:'結(맺을 결) + 氷(얼음 빙). 얼음이 맺힌다는 뜻이에요.'},
+    {q:'한파 쉼터는 지난해보다 줄어들었어요.', a:false, why:'약 22% 늘어서 6만 4494곳이 되었어요.'},
+    {q:'엘니뇨만 보면 올겨울 날씨를 딱 잘라 알 수 있어요.', a:false, why:'날씨는 여러 원인이 함께 만들어서 엘니뇨만으로 단정할 수 없어요.'},
+    {q:'대설·한파 위기 경보는 관심·주의·경계·심각 네 단계예요.', a:true, why:'이번 겨울은 첫 단계인 관심부터 시작해요.'},
+  ];
+  const STAGES = [
+    {id:'voc',   t:'낱말 뜻 찾기',     d:'뜻을 보고 알맞은 낱말 고르기',        c:'var(--mint)',  cs:'var(--mint-soft)',  n:VOC.length},
+    {id:'fill',  t:'빈칸 채우기',       d:'문장에 알맞은 낱말 넣기',              c:'var(--lemon)', cs:'var(--lemon-soft)', n:FILL.length},
+    {id:'ext',   t:'낱말 가족 넓히기',  d:"'설'·'빙'·'한'으로 낱말 넓히기",       c:'var(--nut)',   cs:'var(--nut-soft)',   n:EXT.length},
+    {id:'order', t:'차례대로 맞추기',   d:'일어나는 차례대로 조각 넣기',          c:'var(--coral)', cs:'var(--coral-soft)', n:ORDERS.length},
+    {id:'fo',    t:'사실일까 의견일까', d:'사실과 의견을 구별해요',               c:'var(--grape)', cs:'var(--grape-soft)', n:FO.length},
+    {id:'ox',    t:'겨울 대비 O X',     d:'눈과 추위 대비 확인하기',              c:'var(--blue)',  cs:'var(--blue-soft)',  n:OX.length},
+  ];
+
+  /* ---------- 상태 ---------- */
+  const KEY = 'elnino-winter-safety-explorer';
+  const fresh = () => ({view:'map', stage:0, q:0, stars:0, done:{}, best:{}, name:'', sound:true});
+  let state = fresh();
+  let round = null;
+  try { const saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (saved) state = {...fresh(), ...saved, view:'map'}; } catch(e) {}
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e) {} };
+
+  /* ---------- 소리 (효과음만, 음성 없음) ---------- */
+  let ac = null;
+  function tone(freqs, dur = 0.12) {
+    if (!state.sound) return;
+    try {
+      ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+      freqs.forEach((f, i) => {
+        const o = ac.createOscillator(), g = ac.createGain();
+        o.type = 'sine'; o.frequency.value = f;
+        const t0 = ac.currentTime + i * dur;
+        g.gain.setValueAtTime(0.0001, t0);
+        g.gain.exponentialRampToValueAtTime(0.18, t0 + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur * 1.6);
+        o.connect(g).connect(ac.destination); o.start(t0); o.stop(t0 + dur * 1.7);
+      });
+    } catch(e) {}
+  }
+  const ding = () => tone([660, 880]);
+  const oops = () => tone([300, 240], 0.14);
+  const fanfare = () => tone([523, 659, 784, 1047], 0.13);
+
+  /* ---------- 도우미 ---------- */
+  const $app = document.getElementById('app');
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const ic = id => `<svg viewBox="0 0 100 100" aria-hidden="true"><use href="#b-${id}"/></svg>`;
+  const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const stageDone = i => !!state.done[STAGES[i].id];
+
+  function confetti() {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const box = document.getElementById('confetti');
+    const icons = ['❄️','⛄','🧤','⭐','🧣'];
+    for (let i = 0; i < 26; i++) {
+      const s = document.createElement('span');
+      s.textContent = icons[i % icons.length];
+      s.style.left = Math.random() * 100 + 'vw';
+      s.style.animationDelay = Math.random() * 0.6 + 's';
+      box.appendChild(s);
+      setTimeout(() => s.remove(), 2600);
+    }
+  }
+
+  function topBar(showHome) {
+    return `<div class="bar">
+      ${showHome ? '<button class="home" data-act="map">🗺️ 탐험 지도</button>' : ''}
+      <span class="spacer"></span>
+      <span class="stars" aria-label="모은 별">⭐ ${state.stars}</span>
+      <button class="sound" data-act="sound" aria-label="효과음 켜기/끄기">${state.sound ? '🔊' : '🔈'}</button>
+    </div>`;
+  }
+
+  /* ---------- 화면: 탐험 지도 ---------- */
+  function renderMap() {
+    const doneCount = STAGES.filter((_, i) => stageDone(i)).length;
+    $app.innerHTML = `${topBar(false)}
+      <section class="hero">
+        <div>
+          <div class="kick">🔎 겨울 안전 탐험대 출동!</div>
+          <h1>눈 많은 겨울, <span>안전하게</span> 준비해요</h1>
+          <p>정거장 여섯 곳을 돌며 안전 뉴스를 복습해요.</p>
+        </div>
+        <svg class="hero-art" viewBox="0 0 150 130" aria-hidden="true"><use href="#b-map"/></svg>
+      </section>
+      <nav class="trail" aria-label="정거장">
+        ${STAGES.map((s, i) => `
+          <button class="stop ${stageDone(i) ? 'done' : ''}" style="--c:${s.c};--cs:${s.cs}" data-act="stage" data-i="${i}">
+            <span class="num">${stageDone(i) ? '✓' : i + 1}</span>
+            <span class="txt"><span class="t disp">${s.t}</span><br><span class="d">${s.d}</span></span>
+            <span class="got">${state.best[s.id] != null ? `⭐ ${state.best[s.id]}/${s.n}` : `${s.n}문제`}</span>
+          </button>`).join('')}
+      </nav>
+      <button class="notebook-btn" data-act="notebook">📒 겨울 안전 수첩 보기 (${doneCount}/${STAGES.length} 정거장)</button>`;
+  }
+
+  /* ---------- 정거장 공통 틀 ---------- */
+  function shell(inner) {
+    const s = STAGES[state.stage];
+    $app.innerHTML = `${topBar(true)}
+      <section class="board" style="--c:${s.c};--cs:${s.cs}">
+        <div class="stage-head"><span class="tag">정거장 ${state.stage + 1}</span><h2>${s.t}</h2></div>
+        <div class="progress">${Array.from({length:s.n}, (_, i) => `<i class="${i < state.q ? 'on' : ''}"></i>`).join('')}</div>
+        ${inner}
+        <div class="feedback" id="fb"></div>
+      </section>`;
+  }
+
+  function renderStage() {
+    const s = STAGES[state.stage];
+    if (state.q >= s.n) return renderClear();
+    round = {tries:0, solved:false};
+    ({voc:renderVoc, fill:renderFill, ext:renderExt, order:renderOrder, fo:renderFO, ox:renderOX})[s.id]();
+  }
+
+  function right(msg, el) {
+    if (round.solved) return;
+    round.solved = true;
+    if (round.tries === 0) { state.stars++; round.star = true; }
+    ding();
+    if (el) el.classList.add('is-right', 'pop');
+    const fb = document.getElementById('fb');
+    fb.className = 'feedback good';
+    fb.innerHTML = `<b>딩동댕! ${round.star ? '⭐ +1' : ''}</b><br>${msg}<button class="next" data-act="next">다음 ▶</button>`;
+    document.querySelector('.stars').textContent = '⭐ ' + state.stars;
+    save();
+    fb.querySelector('.next').focus();
+  }
+  function wrong(msg, el) {
+    round.tries++;
+    oops();
+    if (el) { el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake', 'is-wrong'); }
+    const fb = document.getElementById('fb');
+    fb.className = 'feedback bad';
+    fb.innerHTML = `<b>다시 해 볼까요?</b><br>${msg}`;
+  }
+
+  /* 1. 낱말 뜻 찾기 */
+  function renderVoc() {
+    const v = VOC[state.q];
+    const opts = shuffle([v.ans, ...shuffle(VOCAB.map(x=>x.w).filter(w=>w!==v.ans)).slice(0,2)]);
+    shell(`
+      <p class="ask">뜻을 읽고, <b>알맞은 낱말</b>을 골라요.</p>
+      <div class="means">"${esc(v.mean)}"</div>
+      <div class="picklist">${opts.map(o=>`<button class="pickbtn" data-act="voc" data-w="${esc(o)}">${esc(o)}</button>`).join('')}</div>`);
+  }
+
+  /* 2. 빈칸 채우기 */
+  function renderFill() {
+    const f = FILL[state.q];
+    round.pieces = shuffle(f.ch);
+    shell(`
+      <p class="ask">문장을 읽고, 빈칸에 알맞은 <b>낱말</b>을 눌러요.</p>
+      <div class="sentence">${f.pre?esc(f.pre)+' ':''}<span class="blank" id="blank">　　</span> ${esc(f.post)}</div>
+      <div class="pieces">${round.pieces.map(p=>`<button class="piece" data-act="fill" data-w="${esc(p)}">${esc(p)}</button>`).join('')}</div>`);
+  }
+
+  /* 3. 낱말 가족 넓히기 */
+  function renderExt() {
+    const x = EXT[state.q];
+    const opts = shuffle(x.ch);
+    shell(`
+      <p class="ask">낱말 가족을 넓혀요. 뜻을 읽고 <b>알맞은 낱말</b>을 골라요.</p>
+      <div style="text-align:center"><span class="rootchip">🔑 <b>${esc(x.root)}</b> = ${esc(x.hint)}</span></div>
+      <div class="means" style="background:var(--nut-soft);border-color:#E0C9A6">"${esc(x.q)}"</div>
+      <div class="picklist">${opts.map(o=>`<button class="pickbtn" data-act="ext" data-w="${esc(o)}">${esc(o)}</button>`).join('')}</div>`);
+  }
+
+  /* 4. 차례 맞추기 */
+  function renderOrder() {
+    const o = ORDERS[state.q];
+    round.parts = o.steps;
+    round.order = shuffle([0,1,2]);
+    while (round.order.join() === '0,1,2') round.order = shuffle([0,1,2]);
+    round.filled = [];
+    drawOrder();
+  }
+  function drawOrder() {
+    const labels = ['처음','다음','마지막'];
+    const used = new Set(round.filled);
+    shell(`
+      <p class="ask">일이 일어나는 <b>차례대로</b> 조각을 넣어요. 칸을 누르면 조각이 돌아와요.</p>
+      <div class="slots">${labels.map((lbl, i) => {
+        const p = round.filled[i];
+        return `<button class="slot ${p != null ? 'filled' : ''}" data-act="unslot" data-i="${i}" aria-label="${lbl} 칸">
+          <span class="lbl">${i+1}. ${lbl}</span><span class="fill">${p != null ? esc(round.parts[p]) : ''}</span></button>`;
+      }).join('')}</div>
+      <div class="pieces">${round.order.filter(p => !used.has(p)).map(p => `<button class="piece" style="font-size:16px;font-family:var(--body)" data-act="orderpick" data-p="${p}">${esc(round.parts[p])}</button>`).join('')}</div>`);
+  }
+
+  /* 5. 사실 / 의견 */
+  function renderFO() {
+    const f = FO[state.q];
+    shell(`
+      <p class="ask">이 문장은 <b>사실</b>일까요, <b>의견</b>일까요?</p>
+      <div class="quiz">"${esc(f.q)}"</div>
+      <div class="duo"><button class="fact" data-act="fo" data-v="fact">사실</button><button class="opin" data-act="fo" data-v="opin">의견</button></div>`);
+  }
+
+  /* 6. O X */
+  function renderOX() {
+    const o = OX[state.q];
+    shell(`
+      <p class="ask">맞으면 <b>O</b>, 틀리면 <b>X</b>를 눌러요.</p>
+      <div class="quiz">${esc(o.q)}</div>
+      <div class="ox"><button class="o" data-act="ox" data-v="1" aria-label="맞아요 O">O</button><button class="x" data-act="ox" data-v="0" aria-label="틀려요 X">X</button></div>`);
+  }
+
+  /* 정거장 완료 */
+  function renderClear() {
+    const s = STAGES[state.stage];
+    const got = state.stageStars || 0;
+    state.done[s.id] = true;
+    state.best[s.id] = Math.max(state.best[s.id] || 0, got);
+    save();
+    fanfare(); confetti();
+    const next = state.stage < STAGES.length - 1;
+    $app.innerHTML = `${topBar(true)}
+      <section class="board clear" style="--c:${s.c};--cs:${s.cs}">
+        <div class="big">🎉</div>
+        <h2>정거장 ${state.stage + 1} 통과!</h2>
+        <p>이번 정거장에서 별 <b>${got}</b>개를 모았어요.</p>
+        ${next ? `<button class="next" data-act="stage" data-i="${state.stage + 1}">다음 정거장으로 ▶</button>` : `<button class="next" data-act="notebook">📒 겨울 안전 수첩 열기</button>`}
+        <button class="reset" data-act="map">탐험 지도로 돌아가기</button>
+      </section>`;
+  }
+
+  /* 겨울 안전 수첩 */
+  function renderNotebook() {
+    const allDone = STAGES.every((_, i) => stageDone(i));
+    const cards = [
+      {ic:'phone',   nm:'재난 문자',    sm:'눈이 많이 오면<br><b>문자</b>로 알려요', need:'voc'},
+      {ic:'truck',   nm:'제설',         sm:'눈 오기 전에<br><b>제설제</b>를 뿌려요', need:'fill'},
+      {ic:'snow',    nm:'낱말 가족',    sm:'<b>설</b>은 눈, <b>빙</b>은 얼음,<br><b>한</b>은 차다', need:'ext'},
+      {ic:'cal',     nm:'대책 기간',    sm:'11월 15일부터<br>내년 <b>3월 15일</b>까지', need:'order'},
+      {ic:'mic',     nm:'사실과 의견',  sm:'확인되면 <b>사실</b><br>느낌이면 <b>의견</b>', need:'fo'},
+      {ic:'shelter', nm:'한파 쉼터',    sm:'추위를 피해<br><b>쉬어 가요</b>', need:'ox'},
+    ];
+    $app.innerHTML = `${topBar(true)}
+      <section class="board" style="--c:var(--ink);--cs:#E6F0F8">
+        <div class="stage-head"><h2>📒 나의 겨울 안전 수첩</h2></div>
+        <p class="ask">정거장을 통과하면 겨울 안전 카드가 하나씩 열려요.</p>
+        <div class="cards">${cards.map(c => {
+          const open = state.done[c.need];
+          return `<div class="mcard ${open ? '' : 'locked'}">${ic(c.ic)}<div class="nm">${open ? c.nm : '???'}</div><div class="sm">${open ? c.sm : '정거장을 통과하면 열려요'}</div></div>`;
+        }).join('')}</div>
+        ${allDone ? `
+        <div class="badge">
+          <h3>🏅 겨울 안전 탐험대 인증서</h3>
+          <div class="who"><label for="who">탐험대원 이름</label><input id="who" maxlength="10" value="${esc(state.name)}" placeholder="이름 쓰기"></div>
+          <img class="cert-img" id="certImg" alt="겨울 안전 탐험대 인증서">
+          <div><button class="save-cert" id="saveCert" data-act="savecert" hidden>📥 인증서 이미지 저장</button></div>
+          <p class="cert-hint" id="certHint">인증서 그림을 길게 누르면(컴퓨터는 오른쪽 클릭) 이미지로 저장할 수 있어요.</p>
+        </div>` : `<p class="ask" style="text-align:center;margin-top:16px">정거장 여섯 곳을 모두 통과하면 <b>인증서</b>를 받아요!</p>`}
+        <button class="reset" data-act="reset">처음부터 다시 하기</button>
+      </section>`;
+    const who = document.getElementById('who');
+    if (who) {
+      let t = null;
+      who.addEventListener('input', () => { state.name = who.value; save(); clearTimeout(t); t = setTimeout(drawCert, 250); });
+      drawCert();
+      const btn = document.getElementById('saveCert'); if (btn) btn.hidden = false;
+    }
+  }
+
+  /* ---------- 인증서 이미지 ---------- */
+  const CERT_W = 1080, CERT_H = 1350;
+  const CERT_ICONS = [
+    ['snow',    '눈송이'],
+    ['truck',   '제설차'],
+    ['phone',   '재난 문자'],
+    ['shelter', '한파 쉼터'],
+  ];
+  const certFonts = Promise.all([
+    document.fonts ? document.fonts.load('80px "Jua"') : null,
+    document.fonts ? document.fonts.load('30px "Gowun Dodum"') : null,
+  ]).catch(() => {});
+  const icoImgs = {};
+  function icoImage(id) {
+    if (!icoImgs[id]) icoImgs[id] = new Promise(res => {
+      const sym = document.getElementById('b-' + id);
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="400" height="400">${sym ? sym.innerHTML : ''}</svg>`;
+      const img = new Image();
+      img.onload = () => res(img); img.onerror = () => res(null);
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    });
+    return icoImgs[id];
+  }
+  function rrect(ctx, x, y, w, h, r) {
+    ctx.beginPath(); ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+  }
+  let certCanvas = null, drawSeq = 0;
+  async function drawCert() {
+    const seq = ++drawSeq;
+    await certFonts;
+    const imgs = await Promise.all(CERT_ICONS.map(m => icoImage(m[0])));
+    if (seq !== drawSeq) return;
+    const D = '"Jua", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif';
+    const B = '"Gowun Dodum", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif';
+    const c = document.createElement('canvas'); c.width = CERT_W; c.height = CERT_H;
+    const ctx = c.getContext('2d');
+    const g = ctx.createLinearGradient(0, 0, CERT_W, CERT_H);
+    g.addColorStop(0, '#E3F0FA'); g.addColorStop(0.55, '#DEF3E7'); g.addColorStop(1, '#FFF5CF');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, CERT_W, CERT_H);
+    rrect(ctx, 60, 60, CERT_W - 120, CERT_H - 120, 48); ctx.fillStyle = '#FFFFFF'; ctx.fill();
+    ctx.setLineDash([18, 12]); ctx.lineWidth = 6; ctx.strokeStyle = '#8DBFE3'; ctx.stroke(); ctx.setLineDash([]);
+    ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+    rrect(ctx, CERT_W / 2 - 210, 110, 420, 64, 32); ctx.fillStyle = '#E3F0FA'; ctx.fill();
+    ctx.fillStyle = '#3A86C8'; ctx.font = `34px ${D}`; ctx.fillText('안전 뉴스 읽기 완료!', CERT_W / 2, 155);
+    ctx.fillStyle = '#23384A'; ctx.font = `80px ${D}`; ctx.fillText('겨울 안전 탐험대 인증서', CERT_W / 2, 290);
+    const colW = (CERT_W - 160) / 4;
+    CERT_ICONS.forEach((m, i) => {
+      const cx = 80 + colW * i + colW / 2;
+      rrect(ctx, cx - 100, 340, 200, 200, 36); ctx.fillStyle = '#EFF6FC'; ctx.fill();
+      if (imgs[i]) ctx.drawImage(imgs[i], cx - 85, 352, 170, 170);
+      ctx.fillStyle = '#23384A'; ctx.font = `28px ${D}`; ctx.fillText(m[1], cx, 592);
+    });
+    ctx.fillStyle = '#5F7486'; ctx.font = `34px ${D}`; ctx.fillText('탐험대원 이름', CERT_W / 2, 720);
+    const nm = (state.name || '').trim() || '탐험대원';
+    let size = 120; ctx.font = `${size}px ${D}`;
+    while (ctx.measureText(nm).width > 760 && size > 50) { size -= 6; ctx.font = `${size}px ${D}`; }
+    ctx.fillStyle = '#E8782E'; ctx.fillText(nm, CERT_W / 2, 850);
+    ctx.fillStyle = '#F2B100'; rrect(ctx, CERT_W / 2 - 300, 875, 600, 10, 5); ctx.fill();
+    rrect(ctx, CERT_W / 2 - 210, 925, 420, 84, 42); ctx.fillStyle = '#FFF5CF'; ctx.fill();
+    ctx.fillStyle = '#23384A'; ctx.font = `44px ${D}`; ctx.fillText(`모은 별 ⭐ ${state.stars}개`, CERT_W / 2, 982);
+    rrect(ctx, 130, 1050, CERT_W - 260, 110, 30); ctx.fillStyle = '#E3F0FA'; ctx.fill();
+    ctx.fillStyle = '#1F5480'; ctx.font = `36px ${D}`; ctx.fillText('"미리 준비하면 눈이 와도 걱정 없어요!"', CERT_W / 2, 1120);
+    const d = new Date();
+    ctx.fillStyle = '#8A968F'; ctx.font = `28px ${B}`;
+    ctx.fillText(`${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일`, CERT_W / 2, 1212);
+    ctx.fillStyle = '#9AA3AD'; ctx.font = `26px ${D}`; ctx.fillText('@sososoop_notes', CERT_W / 2, 1252);
+    certCanvas = c;
+    const img = document.getElementById('certImg');
+    if (img) img.src = c.toDataURL('image/png');
+  }
+  async function saveCert(btn) {
+    if (!certCanvas) return;
+    const hint = document.getElementById('certHint');
+    btn.disabled = true;
+    try {
+      const blob = await new Promise(r => certCanvas.toBlob(r, 'image/png'));
+      const nm = (state.name || '').trim().replace(/[\\/:*?"<>|]/g, '') || '탐험대원';
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `겨울안전탐험대_인증서_${nm}.png`;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      if (hint) hint.textContent = '인증서를 저장했어요! 🎉 저장이 안 되면 그림을 길게 눌러 저장해 주세요.';
+    } catch(e) {
+      if (hint) hint.textContent = '인증서 그림을 길게 눌러(컴퓨터는 오른쪽 클릭) 저장해 주세요.';
+    } finally { btn.disabled = false; }
+  }
+
+  function render() {
+    if (state.view === 'map') renderMap();
+    else if (state.view === 'notebook') renderNotebook();
+    else renderStage();
+    window.scrollTo({top:0});
+  }
+
+  /* ---------- 입력 ---------- */
+  $app.addEventListener('click', e => {
+    const b = e.target.closest('[data-act]');
+    if (!b) return;
+    const act = b.dataset.act;
+
+    if (act === 'map') { state.view = 'map'; return render(); }
+    if (act === 'notebook') { state.view = 'notebook'; return render(); }
+    if (act === 'sound') { state.sound = !state.sound; save(); b.textContent = state.sound ? '🔊' : '🔈'; return; }
+    if (act === 'savecert') return saveCert(b);
+    if (act === 'reset') { const keep = state.sound; state = fresh(); state.sound = keep; save(); return render(); }
+    if (act === 'stage') { state.view = 'stage'; state.stage = +b.dataset.i; state.q = 0; state.stageStars = 0; return render(); }
+    if (act === 'next') { if (round && round.star) state.stageStars = (state.stageStars || 0) + 1; state.q++; return render(); }
+    if (round && round.solved) return;
+
+    if (act === 'voc') {
+      const v = VOC[state.q];
+      if (b.dataset.w === v.ans) right(`<b style="color:var(--mint)">${esc(v.ans)}</b> — ${esc(v.mean)}`, b);
+      else wrong(`뜻을 한 번 더 읽어 봐요. 어떤 낱말이 어울릴까요?`, b);
+    }
+    if (act === 'fill') {
+      const f = FILL[state.q];
+      if (b.dataset.w === f.ans) {
+        const bl = document.getElementById('blank'); if (bl) bl.textContent = f.ans;
+        right(`${f.pre?esc(f.pre)+' ':''}<b style="color:var(--lemon)">${esc(f.ans)}</b> ${esc(f.post)}`, b);
+      } else wrong(`문장에 넣어 읽어 보면 어색해요. 다른 낱말을 골라 봐요.`, b);
+    }
+    if (act === 'ext') {
+      const x = EXT[state.q];
+      if (b.dataset.w === x.ans) right(`<b style="color:var(--nut)">${esc(x.ans)}</b> — ${esc(x.why)}`, b);
+      else wrong(`🔑 <b>${esc(x.root)} = ${esc(x.hint)}</b>, 그리고 <b>${esc(x.tip)}</b>. 글자 뜻을 합쳐 생각해 봐요.`, b);
+    }
+    if (act === 'orderpick') {
+      const i = round.filled.findIndex(v => v == null);
+      round.filled[i === -1 ? round.filled.length : i] = +b.dataset.p;
+      drawOrder();
+      if (round.filled.filter(v => v != null).length === 3) {
+        if (round.filled.join() === '0,1,2') right(`<b>차례 맞았어요!</b><br>${round.parts.map((p,i)=>`${i+1}. ${esc(p)}`).join('<br>')}`, document.querySelector('.slots'));
+        else wrong(`<b>처음 → 다음 → 마지막</b> 차례예요. 칸을 눌러 조각을 빼고 다시 넣어 봐요.`, document.querySelector('.slots'));
+      }
+    }
+    if (act === 'unslot') {
+      const i = +b.dataset.i;
+      if (round.filled[i] == null) return;
+      round.filled[i] = null;
+      drawOrder();
+    }
+    if (act === 'fo') {
+      const f = FO[state.q];
+      if (b.dataset.v === f.a) right(`${f.a==='fact'?'사실':'의견'}이에요! ${esc(f.why)}`, b);
+      else wrong(`확인할 수 있으면 '사실', 생각이나 느낌이면 '의견'이에요.`, b);
+    }
+    if (act === 'ox') {
+      const o = OX[state.q];
+      const v = b.dataset.v === '1';
+      if (v === o.a) right(`${o.a ? 'O' : 'X'} 맞아요! ${esc(o.why)}`, b);
+      else wrong(`안전 뉴스에서 읽은 내용을 떠올려 봐요.`, b);
+    }
+  });
+
+  render();
+})();
+</script>
+</body></html>
